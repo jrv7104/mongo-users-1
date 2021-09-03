@@ -32,6 +32,14 @@ const validate = (state) => {
   return ret;
 };
 
+//TODO: add fullName
+//TODO: Add a createdAt property
+
+const withFullName = state => ({
+  ...state,
+  fullName: `${state.firstName} ${state.lastName}`,
+});
+
 export default {
   createUser(newUser) {
     const errors = validate(newUser);
@@ -39,6 +47,6 @@ export default {
       throw new Error(`User error: ${errors.join(", ")}`);
     }
 
-    return newUser;
+    return { ...newUser, ...withFullName(newUser) };
   },
 };
