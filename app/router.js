@@ -10,8 +10,6 @@ router.get("/", async (_, res) => {
     const users = await usersController.index();
     res.json(users);
   } catch (error) {
-    // TODO: Send the errors back to the client
-    // TODO: Differentiate between 400 and 500 errors
     res.status(400).send(error);
   }
 });
@@ -22,7 +20,11 @@ router.post("/", async (req, res) => {
     const newUser = await usersController.add(validatedUser);
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).send(error);
+    if(error.message.startsWith("User")) {
+      res.status(400).send(error.message);
+    } else {
+    res.status(500).send(error.message);
+    }
   }
 });
 
