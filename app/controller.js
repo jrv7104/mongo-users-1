@@ -7,6 +7,13 @@ export default {
   add(newUser) {
     // TODO: Find if the email already exists
     const existingUser = userConnection.findOne({ email: newUser.email });
-    return userConnection.insertOne(newUser);
+
+    if(existingUser) {
+      throw new Error("User already exists");
+    }
+
+    const date = new Date();
+
+    return userConnection.insertOne({}...newUser, createdAt: date, lastUpdated: date,});
   },
 };
